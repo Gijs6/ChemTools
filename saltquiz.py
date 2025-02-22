@@ -300,6 +300,7 @@ def check_awnser(input, awnser, capitals):
 
 while True:
     print("Oefenen met zoutformules")
+    print("Je kunt vragen ")
     user_input_amount_questions = input("Hoeveel vragen? ")
     amount_questions = int(user_input_amount_questions) if user_input_amount_questions.isdigit() else 5
     print("\nDaar gaan we!\n")
@@ -325,7 +326,7 @@ while True:
         else:
             vraag = f"Geef de naam van {style.NEGATIVE}{formula_subscript}{style.RESET}."
             antwoord = chemname_lower
-            antwoord_formatted = chemname_lower
+            antwoord_formatted = chemname
             capitals_setting = False
 
         print(f"Vraag {i}/{amount_questions}")
@@ -337,7 +338,7 @@ while True:
             end_time = time.time()
             correct_answers += 1
 
-            print(f"{style.BG_GREEN}Dat is goed!{style.RESET}\n")
+            print(f"{style.NEGATIVE}{antwoord_formatted}{style.RESET}{style.BLACK}{style.BG_GREEN} is inderdaad goed!{style.RESET}\n")
         else:
             print(f"{style.BG_RED}Dat is helaas niet goed.{style.RESET}\n")
             input_attempt1 = input("Probeer het opnieuw: ")
@@ -345,7 +346,7 @@ while True:
                 end_time = time.time()
                 semicorrect_answers += 1
 
-                print("Dat is goed!\n")
+                print(f"{style.NEGATIVE}{antwoord_formatted}{style.RESET}{style.BLACK}{style.BG_GREEN} is goed.{style.RESET}\n")
             else:
                 end_time = time.time()
                 incorrect_answers += 1
