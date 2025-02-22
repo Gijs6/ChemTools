@@ -303,7 +303,19 @@ while True:
     print("Je kunt vragen ")
     user_input_amount_questions = input("Hoeveel vragen? ")
     amount_questions = int(user_input_amount_questions) if user_input_amount_questions.isdigit() else 5
+
+    print("Hoe wil je oefenen?")
+    print("1: Van naam naar formule")
+    print("2: Van formule naar naam")
+    print("3: Gemengd")
+    user_input_qtype = input("Keuze: ")
+    if user_input_qtype.isdigit() and 0 <= int(user_input_qtype) < 4:
+        user_input_qtype_formatted = int(user_input_qtype)
+    else:
+        user_input_qtype_formatted = 3
+        print("Dat is geen geldige keuze. We doen maar gemengd oefenen.")
     print("\nDaar gaan we!\n")
+
 
     durations = []
     correct_answers = 0
@@ -313,17 +325,23 @@ while True:
     for i in range(1, amount_questions + 1):
         chemname, formula = generate_name_formula_pair()
 
-        chemname_lower = chemname[0].lower() + chemname[1].lower() + chemname[
-                                                                     2:]  # The first 2 letters (with the IJ) but not all (with Roman numerals)
+        chemname_lower = chemname[0].lower() + chemname[1].lower() + chemname[2:]  # The first 2 letters (with the IJ) but not all (with Roman numerals)
         formula_subscript = ''.join('₀₁₂₃₄₅₆₇₈₉'[int(char)] if char.isdigit() else char for char in formula)
 
-        if random.choice([0, 0, 1]) == 0:
+
+        if user_input_qtype_formatted in [1, 2]:
+            type_question = user_input_qtype_formatted
+        else:
+            type_question = random.choice([1, 1, 2])
+
+
+        if type_question == 1:
             # Naam -> Formule
             vraag = f"Geef de formule van {style.NEGATIVE}{chemname_lower}{style.RESET}."
             antwoord = formula
             antwoord_formatted = formula_subscript
             capitals_setting = True
-        else:
+        elif type_question == 2:
             vraag = f"Geef de naam van {style.NEGATIVE}{formula_subscript}{style.RESET}."
             antwoord = chemname_lower
             antwoord_formatted = chemname
