@@ -215,6 +215,7 @@ ions = [
     }
 ]
 
+
 pos_ions = [ion for ion in ions if ion["chargetype"] == "+"]
 neg_ions = [ion for ion in ions if ion["chargetype"] == "-"]
 
@@ -260,6 +261,45 @@ def generate_name_formula_pair():
 
     return chemname, formula
 
+while True:
+    print("Oefenen met zoutformules")
+    user_input_amount_questions = input("Hoeveel vragen? ")
+    amount_questions = int(user_input_amount_questions) if user_input_amount_questions.isdigit() else 5
+    print("\nDaar gaan we!\n")
+    for i in range(amount_questions):
+        chemname, formula = generate_name_formula_pair()
 
-for _ in range(10):
-    print(generate_name_formula_pair())
+        chemname_lower = chemname[0].lower() + chemname[1].lower() + chemname[2:]  # The first 2 letters (with the IJ) but not all (with Roman numerals)
+        formula_subscript = ''.join('₀₁₂₃₄₅₆₇₈₉'[int(char)] if char.isdigit() else char for char in formula)
+
+        if random.choice([0, 0, 1]) == 0:
+            # Naam -> Formule
+            vraag = f"Geef de formule van {chemname_lower}."
+            antwoord = formula
+            antwoord_formatted = formula_subscript
+        else:
+            vraag = f"Geef de naam van {formula_subscript}."
+            antwoord = chemname_lower
+            antwoord_formatted = chemname_lower
+
+        print(vraag)
+        input_attempt0 = input("Antwoord: ")
+
+        if input_attempt0.strip().lower() == antwoord.strip().lower():
+            print("Dat is goed!\n")
+        else:
+            print("Dat is helaas niet goed.")
+            input_attempt1 = input("Probeer het opnieuw: ")
+            if input_attempt1.strip().lower() == antwoord.strip().lower():
+                print("Dat is goed!\n")
+            else:
+                print("Dat is helaas weer niet goed.")
+                print(f"Het goede antwoord was {antwoord_formatted}\n")
+    input_again = input("\nWil je nog een keer oefenen? (ja/nee): ")
+    if input_again.lower().strip() == "ja":
+        print("Nog een keer!")
+    elif input_again.lower().strip() == "nee":
+        print("Bedankt voor het oefenen!")
+        break
+    else:
+        print("Dat is geen geldige keuze. Nou we gaan gewoon nog een keertje!")
