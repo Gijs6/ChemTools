@@ -1,10 +1,11 @@
 import random
 import math
 import time
-import statistics
 from statistics import fmean
 
-ions = [
+
+
+neg_ions = [
     {
         "name": "Acetaat",
         "formula": "CH3COO",
@@ -109,7 +110,11 @@ ions = [
         "charge": 3,
         "chargetype": "-",
         "is_polyatomic": True
-    },
+    }
+]
+
+
+pos_ions = [
     {
         "name": "Ammonium",
         "formula": "NH4",
@@ -217,20 +222,39 @@ ions = [
     }
 ]
 
-pos_ions = [ion for ion in ions if ion["chargetype"] == "+"]
-neg_ions = [ion for ion in ions if ion["chargetype"] == "-"]
-
-
-def charges_to_indexes(chargeA, chargeB):
-    lcm = math.lcm(chargeA, chargeB)
-    amount_A = lcm // chargeA
-    amount_B = lcm // chargeB
-
-    if amount_A == 1:
-        amount_A = ""
-    if amount_B == 1:
-        amount_B = ""
-    return amount_A, amount_B
+class style:
+    BLACK = "\033[0;30m"
+    RED = "\033[0;31m"
+    GREEN = "\033[0;32m"
+    BROWN = "\033[0;33m"
+    BLUE = "\033[0;34m"
+    PURPLE = "\033[0;35m"
+    CYAN = "\033[0;36m"
+    LIGHT_GRAY = "\033[0;37m"
+    DARK_GRAY = "\033[1;30m"
+    LIGHT_RED = "\033[1;31m"
+    LIGHT_GREEN = "\033[1;32m"
+    YELLOW = "\033[1;33m"
+    LIGHT_BLUE = "\033[1;34m"
+    LIGHT_PURPLE = "\033[1;35m"
+    LIGHT_CYAN = "\033[1;36m"
+    LIGHT_WHITE = "\033[1;37m"
+    BG_RED = "\u001b[41m"
+    BG_GREEN = "\u001b[42m"
+    BG_YELLOW = "\u001b[43m"
+    BG_BLUE = "\u001b[44m"
+    BG_MAGENTA = "\u001b[45m"
+    BG_CYAN = "\u001b[46m"
+    BG_WHITE = "\u001b[47m"
+    BOLD = "\033[1m"
+    FAINT = "\033[2m"
+    ITALIC = "\033[3m"
+    UNDER = "\033[4m"
+    BLINK = "\033[5m"
+    NEGATIVE = "\033[7m"
+    CROSSED = "\033[9m"
+    RESET = "\033[0m"
+    CLEAR = "\033[2J"
 
 
 def generate_name_formula_pair():
@@ -264,6 +288,8 @@ def generate_name_formula_pair():
 
 def check_awnser(input, awnser, capitals):
     # If capitals == true, the capitals NEED to be checked
+    if input.lower().strip() in ["exit", "quit", "sluiten", "stop"]:
+        exit(1)
     if capitals:
         return input.strip() == awnser.strip()
     else:
@@ -292,12 +318,12 @@ while True:
 
         if random.choice([0, 0, 1]) == 0:
             # Naam -> Formule
-            vraag = f"Geef de formule van {chemname_lower}."
+            vraag = f"Geef de formule van {style.NEGATIVE}{chemname_lower}{style.RESET}."
             antwoord = formula
             antwoord_formatted = formula_subscript
             capitals_setting = True
         else:
-            vraag = f"Geef de naam van {formula_subscript}."
+            vraag = f"Geef de naam van {style.NEGATIVE}{formula_subscript}{style.RESET}."
             antwoord = chemname_lower
             antwoord_formatted = chemname_lower
             capitals_setting = False
@@ -311,9 +337,9 @@ while True:
             end_time = time.time()
             correct_answers += 1
 
-            print("Dat is goed!\n")
+            print(f"{style.BG_GREEN}Dat is goed!{style.RESET}\n")
         else:
-            print("Dat is helaas niet goed.")
+            print(f"{style.BG_RED}Dat is helaas niet goed.{style.RESET}\n")
             input_attempt1 = input("Probeer het opnieuw: ")
             if check_awnser(input_attempt1, antwoord.strip(), capitals_setting):
                 end_time = time.time()
@@ -324,8 +350,9 @@ while True:
                 end_time = time.time()
                 incorrect_answers += 1
 
-                print("Dat is helaas weer niet goed.")
-                print(f"Het goede antwoord was {antwoord_formatted}\n")
+                print(f"{style.BG_RED}Dat is helaas weer niet goed.{style.RESET}\n")
+
+                print(f"Het goede antwoord was {style.NEGATIVE}{antwoord_formatted}{style.RESET}\n")
 
         durations.append(end_time - start_time)
 
@@ -333,7 +360,7 @@ while True:
     print(f"Je had {correct_answers} vragen in 1 keer goed ({round(correct_answers / amount_questions * 100, 1)}%).")
     print(f"Je had {semicorrect_answers} vragen na 1 fout toch goed ({round(semicorrect_answers / amount_questions * 100, 1)}%).")
     print(f"Je had {incorrect_answers} vragen fout ({round(incorrect_answers / amount_questions * 100, 1)}%).")
-    print(f"Je deed gemiddeld {fmean(durations)} seconden over een vraag.")
+    print(f"Je deed gemiddeld {round(fmean(durations), 1)} seconden over een vraag.")
 
 
 
