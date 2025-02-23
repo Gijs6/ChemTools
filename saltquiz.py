@@ -258,30 +258,30 @@ class style:
 
 
 def generate_name_formula_pair():
-    posion = random.choice(pos_ions)
-    negion = random.choice(neg_ions)
-    chemname = posion["name"] + negion["name"].lower()
+    pos_ion = random.choice(pos_ions)
+    neg_ion = random.choice(neg_ions)
+    chemname = pos_ion["name"] + neg_ion["name"].lower()
 
-    lcm = math.lcm(posion["charge"], negion["charge"])
-    amount_posion = lcm // posion["charge"]
-    amount_negion = lcm // negion["charge"]
+    lcm = math.lcm(pos_ion["charge"], neg_ion["charge"])
+    amount_pos_ion = lcm // pos_ion["charge"]
+    amount_neg_ion = lcm // neg_ion["charge"]
 
-    if amount_posion == 1:
-        amount_posion = ""
-    if amount_negion == 1:
-        amount_negion = ""
+    if amount_pos_ion == 1:
+        amount_pos_ion = ""
+    if amount_neg_ion == 1:
+        amount_neg_ion = ""
 
-    if posion["is_polyatomic"] and amount_posion:
-        formula_posion_part = f"({posion["formula"]}){amount_posion}"
+    if pos_ion["is_polyatomic"] and amount_pos_ion:
+        formula_pos_ion_part = f"({pos_ion["formula"]}){amount_pos_ion}"
     else:
-        formula_posion_part = f"{posion["formula"]}{amount_posion}"
+        formula_pos_ion_part = f"{pos_ion["formula"]}{amount_pos_ion}"
 
-    if negion["is_polyatomic"] and amount_negion:
-        formula_negion_part = f"({negion["formula"]}){amount_negion}"
+    if neg_ion["is_polyatomic"] and amount_neg_ion:
+        formula_neg_ion_part = f"({neg_ion["formula"]}){amount_neg_ion}"
     else:
-        formula_negion_part = f"{negion["formula"]}{amount_negion}"
+        formula_neg_ion_part = f"{neg_ion["formula"]}{amount_neg_ion}"
 
-    formula = formula_posion_part + formula_negion_part
+    formula = formula_pos_ion_part + formula_neg_ion_part
 
     return chemname, formula
 
@@ -330,18 +330,18 @@ while True:
 
 
         if user_input_qtype_formatted in [1, 2]:
-            type_question = user_input_qtype_formatted
+            question_type = user_input_qtype_formatted
         else:
-            type_question = random.choice([1, 1, 2])
+            question_type = random.choice([1, 1, 2])
 
 
-        if type_question == 1:
+        if question_type == 1:
             # Naam -> Formule
             vraag = f"Geef de formule van {style.NEGATIVE}{chemname_lower}{style.RESET}."
             antwoord = formula
             antwoord_formatted = formula_subscript
             capitals_setting = True
-        elif type_question == 2:
+        elif question_type == 2:
             vraag = f"Geef de naam van {style.NEGATIVE}{formula_subscript}{style.RESET}."
             antwoord = chemname_lower
             antwoord_formatted = chemname
