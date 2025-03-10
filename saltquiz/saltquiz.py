@@ -341,7 +341,7 @@ while True:
             antwoord = formula
             antwoord_formatted = formula_subscript
             capitals_setting = True
-        elif question_type == 2:
+        else:
             vraag = f"Geef de naam van {style.NEGATIVE}{formula_subscript}{style.RESET}."
             antwoord = chemname_lower
             antwoord_formatted = chemname

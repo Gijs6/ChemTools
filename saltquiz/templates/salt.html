@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oefenen met zoutformules</title>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='salt.css') }}">
+</head>
+<body class="container mt-5">
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <div id="messages">
+                {% for category, message in messages[:3] %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+
+    <h1>Oefenen met zoutformules</h1>
+
+
+    <p>{{ question }}</p>
+    <form method="post" action="/oefenen_zouten">
+        <input type="text" name="answer" class="form-control" required>
+        <!-- Ja, ik weet dat het antwoord hier gewoon staat. Het hele nut van dit ding is gewoon dat je zelf oefent, als jij steeds het goede antwoord invult omdat het hier staat, ga je lekker je gang -->
+        <input type="hidden" name="question" value="{{ question }}">
+        <input type="hidden" name="capitals" value="{{ capitals }}">
+        <input type="hidden" name="correct_answer" value="{{ correct_answer }}">
+        <input type="hidden" name="answer_formatted" value="{{ answer_formatted }}">
+        <input type="hidden" name="attempt" value="{{ attempt }}">
+        <button type="submit" class="btn btn-primary mt-2">Controleer</button>
+    </form>
+</body>
+</html>
