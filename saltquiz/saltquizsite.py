@@ -308,7 +308,7 @@ def zoutenoefenen():
 
         formula_subscript = re.sub(r'(\d+)', r'_{\1}', formula)
 
-        question_type = random.choice([1, 1, 2])
+        question_type = random.choice([1, 1, 1, 2])
 
 
         if question_type == 1:
